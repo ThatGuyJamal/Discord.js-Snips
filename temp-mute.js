@@ -50,7 +50,7 @@ module.exports = {
 // If you have a main role / if its a privte bot use this code: 
 
 //THIS IS THE CODE FOR THE COMMAND! FOR PEOPLE WHO USE COMMAND HANDLER,
-GO AHEAD AND ONLY USE THE ARG SYSTEM AND THE CODE INSIDE OF THE if(cmd === '?tempmute'){ } THANKS!
+//GO AHEAD AND ONLY USE THE ARG SYSTEM AND THE CODE INSIDE OF THE if(cmd === '?tempmute'){ } THANKS!
 
 const discord = require('discord.js');
 const { MessageEmbed } = require('discord.js')
