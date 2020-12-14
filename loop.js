@@ -1,33 +1,35 @@
-const client = require('discord.js')
-
 const commando = require('discord.js-commando');
-module.exports = class LOopCommand extends commando.Command {
+const { MessageEmbed } = require("discord.js");
+module.exports = class Command extends commando.Command {
     constructor(client) {
         super(client, {
-            name: 'loop',
+            name: 'pause',
+            aliases: ['hold'],
             group: 'music',
-            memberName: 'muisc-loop',
-            description: 'Loops the currently Playing song.',
-            userPermissions: [
-                'CONNECT'
-            ],
+            memberName: 'pause-music',
+            description: 'Pauses the currently playing song.',
             clientPermissions: [
                 'SPEAK'
             ],
             argsType: 'multiple',
             guildOnly: true, 
             throttling: {
-                usages: 1,
-                duration: 120,
+                usages: 3,
+                duration: 30,
             },
         })
     }
     async run ( message, args ) {
         const serverQueue = message.client.queue.get(message.guild.id);
-        if (!serverQueue) return message.reply("There is nothing playing.").catch(console.error);
-    
-        // toggle from false to true and reverse
-        serverQueue.loop = !serverQueue.loop;
-        return serverQueue.textChannel.send(`Loop is now ${serverQueue.loop ? "**on**" : "**off**"}`).catch(console.error);
+    if (serverQueue && serverQueue.playing) {
+      serverQueue.playing = false;
+      serverQueue.connection.dispatcher.pause();
+      let xd = new MessageEmbed()
+      .setDescription("⏸ Paused the music for you!")
+      .setColor("YELLOW")
+      .setAuthor("Music has been paused!", "https://github.com/ThatGuyJamal/DeepWebAPI-Git-host/blob/master/src/assets/Music.gif")
+      return message.channel.send(xd);
+    }
+    return sendError("There is nothing playing in this server.", message.channel);
     }
 }
